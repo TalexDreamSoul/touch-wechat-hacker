@@ -1,0 +1,32 @@
+{
+  "name": "touch-wechat-hacker",
+  "version": "0.1.0",
+  "private": true,
+  "description": "macOS WeChat multi-instance manager + anti-recall patcher monorepo",
+  "workspaces": [
+    "packages/multi-manager"
+  ],
+  "scripts": {
+    "dev": "npm run dev -w wechat-multi-manager",
+    "dev:server": "npm run dev:server -w wechat-multi-manager",
+    "start": "npm run start -w wechat-multi-manager",
+    "build": "npm run build -w wechat-multi-manager",
+    "manager:install": "npm install -w wechat-multi-manager",
+    "antirecall:build": "bash scripts/build-antirecall.sh",
+    "antirecall:versions": "bash scripts/run-antirecall.sh versions",
+    "antirecall:dry-run": "bash scripts/run-antirecall.sh install --with-tip --block-update --multi-instance --dry-run",
+    "setup": "npm install && npm run antirecall:build",
+    "tauri:dev": "npm run tauri:dev -w wechat-multi-manager",
+    "tauri:build": "npm run tauri:build -w wechat-multi-manager",
+    "tauri:dmg": "npm run tauri:dmg -w wechat-multi-manager",
+    "dev:all": "npm run dev:all -w wechat-multi-manager",
+    "start:web": "npm run start:web -w wechat-multi-manager"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "overrides": {
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
+  }
+}

@@ -1,0 +1,19 @@
+/* Kumo styles are loaded client-side only via components/providers.tsx */
+
+html,
+body {
+  height: 100%;
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100svh;
+}
+
+#__next,
+body > div:first-child {
+  min-height: 100svh;
+  height: 100%;
+}

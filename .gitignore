@@ -1,0 +1,33 @@
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+# Next.js
+packages/multi-manager/.next/
+packages/multi-manager/out/
+**/*.tsbuildinfo
+# Swift / Xcode
+packages/antirecall/.build/
+packages/antirecall/.swiftpm/
+**/.swiftpm/xcode/
+
+# Tauri / generated
+packages/multi-manager/src-tauri/target/
+packages/multi-manager/src-tauri/gen/
+packages/multi-manager/src-tauri/bin/node
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
+.codex/
+.cursor/
+.serena/
+.pi/
+.spec-workflow/
+
+# Local env
+.env
+.env.*

@@ -1,0 +1,35 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "WeChat Multi Manager",
+  "version": "0.1.0",
+  "identifier": "local.wechat-multi-manager",
+  "build": {
+    "beforeDevCommand": "npm run dev",
+    "beforeBuildCommand": "npm run build && npm run tauri:prepare-node",
+    "beforeBundleCommand": "npm run tauri:prepare-node",
+    "devUrl": "http://127.0.0.1:5173",
+    "frontendDist": "../public"
+  },
+  "app": {
+    "withGlobalTauri": false,
+    "windows": [],
+    "security": {
+      "csp": null
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": ["app"],
+    "icon": ["icons/icon.icns"],
+    "resources": {
+      "../server.js": "server.js",
+      "../public": "public",
+      "../bin/make-icon.swift": "bin/make-icon.swift",
+      "bin/node": "bin/node"
+    },
+    "macOS": {
+      "minimumSystemVersion": "10.15",
+      "signingIdentity": "-"
+    }
+  }
+}

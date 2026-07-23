@@ -1,0 +1,38 @@
+{
+  "name": "wechat-multi-manager",
+  "version": "0.2.0",
+  "private": true,
+  "type": "commonjs",
+  "scripts": {
+    "dev": "next dev -H 127.0.0.1 -p 5173",
+    "dev:server": "node server.js",
+    "dev:all": "node scripts/dev-all.js",
+    "build": "next build",
+    "start": "node server.js",
+    "start:web": "next start -H 127.0.0.1 -p 5173",
+    "tauri:prepare-node": "node scripts/prepare-tauri-node.js",
+    "tauri:sign-app": "node scripts/sign-tauri-app.js",
+    "tauri": "tauri",
+    "tauri:dev": "tauri dev",
+    "tauri:build": "tauri build && npm run tauri:sign-app",
+    "tauri:dmg": "tauri build --bundles dmg"
+  },
+  "dependencies": {
+    "@cloudflare/kumo": "^2.8.0",
+    "@phosphor-icons/react": "^2.1.10",
+    "next": "^15.5.2",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "zod": "^4.0.0"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2.11.2",
+    "@types/node": "^22.15.30",
+    "@types/react": "^18.3.18",
+    "@types/react-dom": "^18.3.5",
+    "typescript": "^5.9.2"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
