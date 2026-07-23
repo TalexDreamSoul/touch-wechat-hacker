@@ -12,6 +12,7 @@ import {
 import {
   ArrowsClockwiseIcon,
   GearSixIcon,
+  GithubLogoIcon,
   HouseIcon,
   ScrollIcon,
   SignOutIcon,
@@ -97,15 +98,26 @@ export function AppShell() {
         </Sidebar.Content>
 
         <Sidebar.Footer>
-          <Button
-            variant="ghost"
-            size="sm"
-            icon={<SignOutIcon />}
-            onClick={logout}
-            style={{ width: '100%' }}
-          >
-            退出
-          </Button>
+          <div style={{ display: 'grid', gap: 8, width: '100%' }}>
+            <Button
+              variant="secondary"
+              size="sm"
+              icon={<GithubLogoIcon />}
+              onClick={() => window.open('https://github.com/TalexDreamSoul/touch-wechat-hacker', '_blank', 'noopener,noreferrer')}
+              style={{ width: '100%' }}
+            >
+              GitHub 仓库
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              icon={<SignOutIcon />}
+              onClick={logout}
+              style={{ width: '100%' }}
+            >
+              退出
+            </Button>
+          </div>
         </Sidebar.Footer>
       </Sidebar>
 

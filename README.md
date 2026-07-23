@@ -137,10 +137,16 @@ TMPDIR="<instance-tmp>"
 - 管理端细节：`packages/multi-manager/README.md`
 - 补丁工具细节 / 版本矩阵 / 恢复备份：`packages/antirecall/README.md`
 
-## 安全注意
+## 安全 / 法律 / 风险声明
 
-- 管理端只绑定 `127.0.0.1`
-- 补丁安装需要 `sudo` 写 `/Applications/WeChat.app`
-- 未知微信构建号会被拒绝，避免盲写地址
-- 不建议多个实例共享同一个数据目录
-- WeChatTweak / 自定义 dylib 注入属于实验能力，可能被 hardened runtime / SIP 拦截
+**本项目仅供个人学习、安全研究与本地技术验证。**
+
+- 作者与贡献者**不承担**因使用本工具导致的法律责任、账号处罚、数据丢失、设备损坏或服务中断。
+- 多开 / 防撤回 / 屏蔽更新 / 注入 / 重签名等行为**可能不稳定**，存在功能异常、闪退、无法更新，以及**临时或永久封号**风险。
+- 补丁会修改 `/Applications/WeChat.app` 并重签名；未知微信构建号会被拒绝，但仍不保证兼容所有环境。
+- 管理端默认只绑定 `127.0.0.1`，请勿暴露到公网。
+- 首次打开网页端会强制弹出超详细确认引导；未勾选确认前不能继续。确认写入浏览器 `localStorage` 键：`touch-wechat-hacker-onboarding-v1`。
+- 不建议多个实例共享同一数据目录。
+- WeChatTweak / 自定义 dylib 注入属于实验能力，可能被 hardened runtime / SIP 拦截。
+
+仓库：https://github.com/TalexDreamSoul/touch-wechat-hacker
