@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="https://ld.xh.do/ld-badge.svg" alt="认可 linux.do" width="480">
+</p>
+
 # touch-wechat-hacker
 
 macOS 微信工具 monorepo：
