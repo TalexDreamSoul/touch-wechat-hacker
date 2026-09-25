@@ -1598,13 +1598,63 @@ private func makeBackup(of fileURL: URL) throws -> URL {
 }
 
 private func resign(appURL: URL, nestedBinaries: [URL]) throws {
+    // 微信原生签名带有 app-sandbox / application-groups 等 entitlements。
+    // 重签时如果丢掉它们，macOS 26+ 会在启动后立刻结束进程（无崩溃报告）。
+    // 因此必须在动签名之前把它们导出，并在重签 app 时原样带回。
+    let entitlementsURL = try captureAppEntitlements(of: appURL)
+    defer {
+        if let entitlementsURL {
+            try? FileManager.default.removeItem(at: entitlementsURL)
+        }
+    }
+
     for binaryURL in uniqueURLs(nestedBinaries) {
         try signMachO(at: binaryURL)
     }
 
-    try runProcess("/usr/bin/codesign", ["--remove-sign", appURL.path])
-    try runProcess("/usr/bin/codesign", ["--force", "--deep", "--sign", "-", appURL.path])
-    try runProcess("/usr/bin/xattr", ["-cr", appURL.path])
+    _ = runProcessStatus("/usr/bin/codesign", ["--remove-sign", appURL.path])
+
+    var signArguments = ["--force", "--sign", "-"]
+    if let entitlementsURL {
+        signArguments += ["--entitlements", entitlementsURL.path]
+    }
+    // 不使用 --deep：未改动的嵌套组件保持微信自己的签名与 entitlements。
+    try runProcess("/usr/bin/codesign", signArguments + [appURL.path])
+
+    if runProcessStatus("/usr/bin/xattr", ["-cr", appURL.path]) != 0 {
+        print("提示：清理扩展属性未完全成功（只读文件会被跳过），不影响补丁。")
+    }
+}
+
+/// 把当前生效签名里的 entitlements 导出成临时 plist；没有 entitlements 时返回 nil。
+private func captureAppEntitlements(of appURL: URL) throws -> URL? {
+    let process = Process()
+    let pipe = Pipe()
+    process.executableURL = URL(fileURLWithPath: "/usr/bin/codesign")
+    process.arguments = ["-d", "--entitlements", ":-", appURL.path]
+    process.standardOutput = pipe
+    process.standardError = FileHandle.nullDevice
+
+    do {
+        try process.run()
+    } catch {
+        return nil
+    }
+
+    let data = pipe.fileHandleForReading.readDataToEndOfFile()
+    process.waitUntilExit()
+
+    guard process.terminationStatus == 0,
+          let text = String(data: data, encoding: .utf8),
+          text.contains("<dict>"),
+          let plistData = text.data(using: .utf8) else {
+        return nil
+    }
+
+    let entitlementsURL = FileManager.default.temporaryDirectory
+        .appendingPathComponent("wechat-antirecall-entitlements-\(UUID().uuidString).plist")
+    try plistData.write(to: entitlementsURL, options: .atomic)
+    return entitlementsURL
 }
 
 private func signMachO(at url: URL) throws {
